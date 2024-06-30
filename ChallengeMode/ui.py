@@ -20,7 +20,7 @@ def draw_text(surface, text, pos, color, font=FONTS["medium"], pos_mode="top_lef
 
 def button(surface, pos_y, pos_x = DEFAULT_BOTTON_POS_X, text=None, click_sound=None):
     rect = pygame.Rect((pos_x, pos_y), BUTTONS_SIZES)
-
+    
     on_button = False
     if rect.collidepoint(pygame.mouse.get_pos()):
         color = COLORS["buttons"]["second"]

@@ -9,8 +9,8 @@ from settings import *
 class Extra(Menu):
     def __init__(self, surface):
         # status = 0 means medal is unlocked
-        self.status = [0,0,0]
-        self.images = []
+        self.status = MEDAL_GET
+        self.images = [[],[],[]]
         self.load_medalImg_async()
         super().__init__(surface)
     def draw(self):
@@ -18,6 +18,8 @@ class Extra(Menu):
         # draw title
         ui.draw_text(self.surface, EXTRA_TITLE, (SCREEN_WIDTH//2, 120), COLORS["title"], font=FONTS["medium"],
                     shadow=True, shadow_color=(255,255,255), pos_mode="center")
+        self.status = MEDAL_GET
+        self.load_medalImg_async()
         for i in range(3):
             self.draw_medal(i)
     def update(self):
@@ -27,10 +29,10 @@ class Extra(Menu):
             return "menu"
     def load_medalImg(self,path,rank):
         image_lst = [os.path.join(path,f"{i+1+self.status[rank]*5}.png") for i in range(MEDAL_ANIMATION_FRAMES)]
-        bronze = []
+        imgs = []
         for img in image_lst:
-            bronze.append(image.load(img,size=MEDAL_SIZE))
-        self.images.append(bronze)
+            imgs.append(image.load(img,size=MEDAL_SIZE))
+        self.images[rank] = imgs
         
         
     def load_medalImg_async(self):
@@ -41,6 +43,7 @@ class Extra(Menu):
         threading.Thread(target=self.load_medalImg, 
                                   kwargs={"path":"Assets/medal/gold/","rank":2}).start()
     def draw_medal(self,rank):
+        
         current_frame = (pygame.time.get_ticks() // 600) % 2 + 3
         pos = (MEDAL_POS[0]+(rank%3)*MEDAL_POS_X_INC, MEDAL_POS[1]+(rank//4)*MEDAL_POS_Y_INC)
         image.draw(self.surface, self.images[rank][current_frame], pos=pos)

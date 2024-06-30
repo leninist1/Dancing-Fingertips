@@ -4,12 +4,22 @@ WINDOW_NAME = "HandGesture Master"
 GAME_TITLE = WINDOW_NAME
 EXTRA_TITLE = "Medal Collectoin"
 RECORDS_TITLE = "Records"
+MEDAL = "title"
 MEDAL_NAMES = ["bronze","silver","gold"]
 SCORES = ["60","80","100"]
 SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 700
 
 FPS = 90
 DRAW_FPS = True
+
+#on/off
+MEDAL_GET = [1,1,1]
+with open("Assets/medal/status.txt", "r") as f:
+    s = f.readline() #1 means off
+    MEDAL_GET[0] = int(s[0])
+    MEDAL_GET[1] = int(s[1])
+    MEDAL_GET[2] = int(s[2])
+    f.close()
 
 # sizes
 BUTTONS_SIZES = (240, 90)
@@ -32,8 +42,9 @@ DRAW_HITBOX = False # will draw all the hitbox
 # animation
 ANIMATION_SPEED = 0.08 # the frame of the hand gestures will change every X sec
 MEDAL_ANIMATION_FRAMES = 5
+MEDAL_ANIMATION_POS = (SCREEN_WIDTH//3 + 80, SCREEN_HEIGHT//3 - 60)
 # difficulty
-GAME_DURATION = 60 # the game will last X sec
+GAME_DURATION = 20 # the game will last X sec
 HANDGESTURES_SPAWN_TIME = 2
 HANDGESTURES_MOVE_SPEED = {"min": 1, "max": 5}
 BOMB_PENALITY = 1 # will remove X of the score of the player (if he kills a bomb)
