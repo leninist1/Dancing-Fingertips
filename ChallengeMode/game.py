@@ -1,13 +1,15 @@
 import pygame
 import time
 import random
+from ChallengeMode.medal_animation import *
+from ChallengeMode.plot_record import PlotRecord
+from ChallengeMode.record_date import *
 from settings import *
 from background import Background
 from hand import Hand
 from hand_tracking import HandTracking
 from handgesture import Handgesture
 from bomb import Bomb
-from medal_animation import *
 import cv2
 import ui
 
@@ -15,9 +17,12 @@ class Game:
     def __init__(self, surface):
         self.surface = surface
         self.background = Background()
+        self.record_date = sys_date().get_date()
         self.medal_animation = medal_ani()
         # Load camera
         self.cap = cv2.VideoCapture(0)
+        self.plot_record = PlotRecord()
+        self.date = sys_date().get_date()
 
         self.sounds = {}
         self.sounds["slap"] = pygame.mixer.Sound(f"Assets/Sounds/slap.wav")
@@ -110,10 +115,8 @@ class Game:
 
         else: # when the game is over
             self.medal_animation.update(self.surface, self.score)
-            ui.draw_text(self.surface, f"{self.score}", (MEDAL_ANIMATION_POS[0]+MEDAL_SIZE[0]//2,MEDAL_ANIMATION_POS[1]+MEDAL_SIZE[1]+30), 
-                     COLORS[MEDAL], font=FONTS["medium"],
-                     shadow=True, shadow_color=(255,255,255), pos_mode="center")
-            if ui.button(self.surface, pos_y=540, text="Continue", click_sound=self.sounds["slap"]):
+            if ui.button(self.surface, 540, text="Continue", click_sound=self.sounds["slap"]):
+                self.plot_record.write_file(self.date, self.score)
                 self.medal_animation.medal_animation_index = 0
                 return "menu"
 
