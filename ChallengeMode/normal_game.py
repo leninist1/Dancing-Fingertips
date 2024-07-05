@@ -11,7 +11,7 @@ from normal_hand_tracking import HandTracking
 import cv2
 from scroll_bar import ScrollBar
 from normal_settings import *
-
+from normal_process_line import *
 
 class Game:
     def __init__(self, surface, ball_handle, enemy_handle, scroll_bar):
@@ -27,7 +27,7 @@ class Game:
         self.scroll_bar = scroll_bar
         self.enemy_handle = enemy_handle
         self.ball_handle = ball_handle
-
+        self.process_line = npl(surface)
         # Load camera
         self.cap = cv2.VideoCapture(0)
         self.drag = Drag()
@@ -44,6 +44,7 @@ class Game:
         self.enemy_handle.reset()  
         self.scroll_bar.reset()  
         self.surface.fill((255, 255, 255))
+        self.process_line.reset()
 
     def draw_score(self):
         font = pygame.font.SysFont(None, 36)  
@@ -80,10 +81,13 @@ class Game:
         for ball in ball_handle.ball_list:
             self.collision.collide_with_element(ball,enemy_handle.enemy_list, self)
         scroll_bar.update(surface, enemy_handle, ball_handle)
-        if enemy_handle.update(surface) == 1:
-            end.show_victory_screen(surface, self)
-        elif enemy_handle.update(surface) == -1:
-            end.show_defeat_screen(surface, self)
+        count = enemy_handle.update(surface)
+        if count == -2:
+            end.show_victory_screen(surface, self, self.score)
+        elif count == -1:
+            end.show_defeat_screen(surface, self, self.score)
+        else:
+            self.score = self.score + 20 * count
 
         self.draw()
 
@@ -91,6 +95,6 @@ class Game:
             self.hand.image = self.hand.image_smaller.copy()
         else:
             self.hand.image = self.hand.orig_image.copy()
-
+        self.process_line.update((enemy_handle.enemy_number_total - enemy_handle.enemy_total) / enemy_handle.enemy_number_total)
         cv2.imshow("Frame", self.frame)
         cv2.waitKey(1)

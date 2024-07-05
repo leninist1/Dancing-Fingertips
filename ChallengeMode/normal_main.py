@@ -25,9 +25,9 @@ class NormalMode():
         self.fps_font = pygame.font.SysFont("Silver.ttf", 22)
 
         # Music ----------------------------------------------------------- #
-        pygame.mixer.music.load("NormalAssets/Sounds/background.mp3")
-        pygame.mixer.music.set_volume(MUSIC_VOLUME)
-        pygame.mixer.music.play(-1)
+        # pygame.mixer.music.load("NormalAssets/Sounds/background.mp3")
+        # pygame.mixer.music.set_volume(MUSIC_VOLUME)
+        # pygame.mixer.music.play(-1)
 
 
     def user_events(self):
@@ -59,7 +59,6 @@ class NormalMode():
         ball_handle = BallHandle()
         enemy_handle = EnemyHandle()
         game = Game(self.SCREEN, ball_handle, enemy_handle, scroll_bar)
-
         # Loop ------------------------------------------------------------ #
         while True:
             self.user_events()

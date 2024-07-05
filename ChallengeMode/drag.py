@@ -5,8 +5,6 @@ class Drag:
         self.which_card = ""
 
     def update(self, hand, ball_handle, surface, lane, hand_tracking, scroll_bar):
-   
-        
         if hand.left_click:
             if hand_tracking.love:
                 

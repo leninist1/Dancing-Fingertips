@@ -5,7 +5,7 @@ from ball import Ball
 
 class Collision:
     @staticmethod
-    def collide_with_element(ball, enemy_group,game):
+    def collide_with_element(ball, enemy_group, game):
         """
         detect collision between ball and enemy
         
@@ -15,12 +15,10 @@ class Collision:
             if Ball.get_card_type(ball) == 'card_golden' and not enemy.collided and not enemy.enchanted:
                 enemy.enchanted = True
                 ball.clear_image()
-                game.score += 10  
                 if enemy.frozen:  
                     enemy.frozen = False  
             elif Ball.get_card_type(ball) == 'card_fire':
-                enemy.kill()  
-                game.score += 10  
+                enemy.state = False
                 ball.clear_image()
                 if enemy.frozen:  
                     enemy.frozen = False  
@@ -28,8 +26,7 @@ class Collision:
                 enemy.frozen = True
                 ball.clear_image()
             elif Ball.get_card_type(ball) == 'card_ground' and ball.effected_by_card_ground and enemy.affected_by_card_ground:
-                if ball.rect.x >= 1050:  
-                    
+                if ball.rect.x >= 1050:
                     ball.kill()  
                 else:
                     enemy.move_right()
@@ -37,8 +34,7 @@ class Collision:
                 enemy.affected_by_card_ground = False
             elif Ball.get_card_type(
                     ball) == 'card_ground' and ball.effected_by_card_ground == False and enemy.affected_by_card_ground == False:
-                if ball.rect.x >= 1050:  
-                   
+                if ball.rect.x >= 1050:
                     ball.kill() 
                 else:
                     enemy.move_right()

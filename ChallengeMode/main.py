@@ -28,9 +28,9 @@ mainClock = pygame.time.Clock()
 fps_font = pygame.font.SysFont("Silver.ttf", 22)
 
 # Music ----------------------------------------------------------- #
-pygame.mixer.music.load("Assets/Sounds/background.mp3")
-pygame.mixer.music.set_volume(MUSIC_VOLUME)
-pygame.mixer.music.play(-1)
+# pygame.mixer.music.load("Assets/Sounds/background.mp3")
+# pygame.mixer.music.set_volume(MUSIC_VOLUME)
+# pygame.mixer.music.play(-1)
 # Variables ------------------------------------------------------- #
 state = "menu"
 
